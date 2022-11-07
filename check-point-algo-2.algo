@@ -1,0 +1,96 @@
+
+//************* PROBLEM 1 SOLUTION
+
+ALGORITHM distinct_elements
+VAR
+set1 : ARRAY_OF INTEGER[4]; 
+set2 : ARRAY_OF INTEGER[5]; 
+i : INTEGER := 0;
+distinct_elements : ARRAY_OF INTEGER[]; 
+distinct_elements.length : INTEGER := 0;
+sum_duplicates : INTEGER := 0;
+BEGIN
+    set1 := {26,9,46,8};
+    set2 := {6,5,9,46,7};
+    //adding duplicate number
+    FOR i FROM 0 TO set1.length-1 STEP  DO
+        IF (set2.includes(set1[i])=TRUE) THEN
+            sum_duplicates := sum_duplicates + set1[i];    
+        END_IF
+    END_FOR
+    //adding distinct element in an array
+    FOR i FROM 0 TO set2.length-1 STEP   DO
+        IF (set2.includes(set1[i])=FALSE) THEN
+            distinct_elements[distinct_elements.length] := set2[i] ;
+            distinct_elements.length := distinct_elements.length +1 ;     
+        END_IF
+    END_FOR
+    FOR i FROM 0 TO set2.length-1 STEP   DO
+        IF (set2.includes(set1[i])=FALSE) THEN
+            distinct_elements[distinct_elements.length] := set2[i] ;
+            distinct_elements.length := distinct_elements.length +1 ;     
+        END_IF
+    END_FOR
+    write ("The sum_duplicates of duplicate elements is : ", sum_duplicates );
+    write ("The Distinct elements are : ", distinct_elements );    
+END
+
+//*********** PROBLEM 2 SOLUTION
+ALGORITHM overlapping_elements
+VAR
+    set1 : ARRAY_OF INTEGER[5]; 
+    set2 : ARRAY_OF INTEGER[7]; 
+    i : INTEGER;
+    overlapping_elements : ARRAY_OF INTEGER[]; 
+    overlapping_elements.length : INTEGER := 0;
+    sum_duplicates : INTEGER := 0;
+BEGIN
+    set1 := {15,9,58,1,7};
+    set2 := {99,58,8,1,15};
+    //finding the overlapping elements, adding them and insert them in an array
+    FOR i FROM 0 TO set1.length-1 STEP step  DO
+        IF (set2.includes(set1[i])) THEN
+            sum_duplicates := sum_duplicates + set1[i];
+            overlapping_elements[overlapping_elements.length] := set1[i] ;
+            overlapping_elements.length := overlapping_elements.length +1 ;     
+        END_IF
+    END_FOR
+    write ("The sum_duplicates of overlapping elements is : ",( sum_duplicates * 2 ));
+    write ("Overlapping elements are : ", overlapping_elements);  
+END
+
+//********** PROBLEM 2 SOLUTION with hash tables
+ALGORITHM overlapping_elements
+VAR
+    set1 : HASH_TABLE <INTEGER, INTEGER>;  
+    set2 : HASH_TABLE <INTEGER, INTEGER>;  
+    i : INTEGER;
+    overlapping_elements : HASH_TABLE <INTEGER, INTEGER>; 
+    overlapping_elements.length : INTEGER := 0;
+    sum_duplicates  : INTEGER := 0;
+BEGIN
+    set1.insert(0,15);
+    set1.insert(1,9);
+    set1.insert(2,58);
+    set1.insert(3,1);
+    set1.insert(4,7);   
+
+    set2.insert(0,99);
+    set2.insert(1,58);
+    set2.insert(2,8);
+    set2.insert(3,1);
+    set2.insert(4,15); 
+    //finding the overlapping elements, adding them and insert them in an array
+    FOR i FROM 0 TO 4 STEP   DO
+        IF (set2.search(set1(i))) THEN
+            sum_duplicates := sum_duplicates + set1.get(i);
+            overlapping_elements.insert(overlapping_elements.length,set1.get(i));
+            overlapping_elements.length := overlapping_elements.length + 1;
+        END_IF
+    END_FOR
+            write ("The sum of overlapping elements is : ",sum_duplicates);
+            write ("Overlapping elements are : ");
+        FOR i FROM 0 TO overlapping_elements.length STEP   DO
+            write (overlapping_elements.get(i));
+        END_FOR
+END
